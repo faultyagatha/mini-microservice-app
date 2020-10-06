@@ -1,6 +1,6 @@
-import express from 'express';
-import { randomBytes } from 'crypto';
-import bodyParser from 'body-parser';
+const express = require('express')
+const { randomBytes } = require('crypto');
+const bodyParser = require('body-parser');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,6 +14,7 @@ app.get('/posts', (req, res) => {
 app.post('/posts', (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
+  // console.log(req.body)
   posts[id] = {
     id,
     title
