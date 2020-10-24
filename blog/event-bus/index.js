@@ -5,6 +5,8 @@ const axios = require('axios');
 const app = express();
 app.use(bodyParser.json());
 
+const events = [];
+
 /** event Object = {
  * type: 'PostCreated' || 'CommentCreated' || 'CommentModerated',
  * data: { id: '26', content: 'new post', postId: '29373', status: 'pending' }
@@ -13,12 +15,16 @@ app.use(bodyParser.json());
 
 app.post('/events', (req, res) => {
   const event = req.body;
-  console.log(event)
+  events.push(event);
   axios.post('http://localhost:4000/events', event); //posts
   axios.post('http://localhost:4001/events', event); //comments
   axios.post('http://localhost:4002/events', event); //query
   axios.post('http://localhost:4003/events', event); //moderation service
   res.send({ status: 'OK' });
+});
+
+app.get('/events', (req, res) => {
+  res.send(events);
 });
 
 app.listen(4005, () => {
