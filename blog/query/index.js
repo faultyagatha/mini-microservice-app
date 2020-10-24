@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-/** query service: 
+/** query service: handles presentation logic 
  * - provides a full listing of posts and comments;
  * - receives events from event bus; */
 
@@ -25,12 +25,18 @@ app.post('/events', (req, res) => {
     posts[id] = { id, title, comments: [] };
   }
   if (type === 'CommentCreated') {
-    const { id, content, postId } = data;
+    const { id, content, postId, status } = data;
     const post = posts[postId];
     //push new comment to the post with the relevant id
-    post.comments.push({ id, content });
+    post.comments.push({ id, content, status });
   }
-  console.log(posts);
+  if (type === 'CommentUpdated') {
+    const { id, content, postId, status } = data;
+    const post = posts[postId];
+    const comment = post.comments.find(c => c.id === id);
+    comment.status = status;
+    comment.content = content;
+  }
 
   res.send({});
 });
