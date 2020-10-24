@@ -6,10 +6,11 @@ const app = express();
 app.use(bodyParser.json());
 
 /** event Object = {
- * type: 'PostCreated',
+ * type: 'PostCreated' or 'CommentCreated',
  * data: {
-  * id: '19',
-  * title: 'new post'}
+  * id: '26',
+  * content: 'new post',
+  * postId: '29373'}
   * }
  */
 
