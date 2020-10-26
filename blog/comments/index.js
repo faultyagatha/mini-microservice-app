@@ -1,11 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const { randomBytes } = require('crypto');
-const cors = require('cors');
-const axios = require('axios');
+import express from 'express';
+import { json } from 'body-parser';
+import { randomBytes } from 'crypto';
+import cors from 'cors';
+import axios from 'axios';
 
 const app = express();
-app.use(bodyParser.json());
+app.use(json());
 app.use(cors());
 
 const commentsByPostId = {};
@@ -48,7 +48,7 @@ app.post('/events', async (req, res) => {
     const comment = comments.find(c => c.id === id);
     comment.status = status;
     //notify the event bus
-    await axios.post('http://localhost:4005/events', {
+    await post('http://localhost:4005/events', {
       type: 'CommentUpdated',
       data: {
         id,
